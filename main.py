@@ -4,8 +4,12 @@ import seaborn as sns
 import streamlit as st
 import matplotlib
 
+
+
+font_path = "站酷文艺体.TTF"
+my_font = fm.FontProperties(fname=font_path)
 # 设置支持中文的字体
-matplotlib.rcParams['font.sans-serif'] = ['Microsoft YaHei']  # Windows 用户推荐使用 'Microsoft YaHei'
+matplotlib.rcParams['font.family'] = my_font.get_name()
 matplotlib.rcParams['axes.unicode_minus'] = False  # 解决负号 '-' 显示为方块的问题
 
 # 读取Excel文件
