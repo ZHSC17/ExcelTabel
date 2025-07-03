@@ -7,8 +7,7 @@ import matplotlib.font_manager as fm
 from itertools import cycle
 
 
-
-font_path = "站酷文艺体.TTF"
+font_path = os.path.join(os.path.dirname(__file__), "站酷文艺体.TTF")
 my_font = fm.FontProperties(fname=font_path)
 # 设置支持中文的字体
 matplotlib.rcParams['font.family'] = my_font.get_name()
