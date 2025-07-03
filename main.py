@@ -4,6 +4,7 @@ import seaborn as sns
 import streamlit as st
 import matplotlib
 import matplotlib.font_manager as fm
+from itertools import cycle
 
 
 
@@ -24,59 +25,47 @@ def load_data(file):
 
 # 绘制带有多个Y轴的图表
 def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
-    fig, ax1 = plt.subplots(figsize=(10, 6))
+    fig, host = plt.subplots(figsize=(10, 6))
+    colors = plt.cm.tab10.colors
+    color_cycle = cycle(colors)
 
-    # 绘制第一个Y轴的数据
+    axes = [host]
+    host.set_xlabel(x_column)
+    host.set_ylabel(y_columns[0], color=colors[0])
+    host.tick_params(axis='y', labelcolor=colors[0])
+
+    # 画第一个Y轴
+    color = next(color_cycle)
     if chart_type == "折线图":
-        ax1.plot(data[x_column], data[y_columns[0]], color='tab:blue', label=y_columns[0])
+        host.plot(data[x_column], data[y_columns[0]], color=color, label=y_columns[0])
     elif chart_type == "柱状图":
-        ax1.bar(data[x_column], data[y_columns[0]], color='tab:blue', label=y_columns[0])
+        host.bar(data[x_column], data[y_columns[0]], color=color, label=y_columns[0])
     elif chart_type == "散点图":
-        ax1.scatter(data[x_column], data[y_columns[0]], color='tab:blue', label=y_columns[0])
+        host.scatter(data[x_column], data[y_columns[0]], color=color, label=y_columns[0])
 
-    ax1.set_xlabel(x_column)
-    ax1.set_ylabel(y_columns[0], color='tab:blue')
-    ax1.tick_params(axis='y', labelcolor='tab:blue')
+    # 创建其他 Y 轴
+    for i in range(1, len(y_columns)):
+        ax_new = host.twinx()
+        ax_new.spines["right"].set_position(("outward", 60 * (i - 1)))  # 右边依次错开
+        axes.append(ax_new)
 
-    # 创建第二个Y轴
-    ax2 = ax1.twinx()
-    if chart_type == "折线图":
-        ax2.plot(data[x_column], data[y_columns[1]], color='tab:orange', label=y_columns[1])
-    elif chart_type == "柱状图":
-        ax2.bar(data[x_column], data[y_columns[1]], color='tab:orange', label=y_columns[1])
-    elif chart_type == "散点图":
-        ax2.scatter(data[x_column], data[y_columns[1]], color='tab:orange', label=y_columns[1])
-
-    ax2.set_ylabel(y_columns[1], color='tab:orange')
-    ax2.tick_params(axis='y', labelcolor='tab:orange')
-
-    # 如果有更多Y轴
-    if len(y_columns) > 2:
-        ax3 = ax1.twinx()
-        ax3.spines['right'].set_position(('outward', 60))  # 偏移第三个Y轴
+        color = next(color_cycle)
         if chart_type == "折线图":
-            ax3.plot(data[x_column], data[y_columns[2]], color='tab:green', label=y_columns[2])
+            ax_new.plot(data[x_column], data[y_columns[i]], color=color, label=y_columns[i])
         elif chart_type == "柱状图":
-            ax3.bar(data[x_column], data[y_columns[2]], color='tab:green', label=y_columns[2])
+            ax_new.bar(data[x_column], data[y_columns[i]], color=color, label=y_columns[i])
         elif chart_type == "散点图":
-            ax3.scatter(data[x_column], data[y_columns[2]], color='tab:green', label=y_columns[2])
+            ax_new.scatter(data[x_column], data[y_columns[i]], color=color, label=y_columns[i])
 
-        ax3.set_ylabel(y_columns[2], color='tab:green')
-        ax3.tick_params(axis='y', labelcolor='tab:green')
+        ax_new.set_ylabel(y_columns[i], color=color)
+        ax_new.tick_params(axis='y', labelcolor=color)
 
-    # 设置图表标题
+    # 设置图表标题和布局
     plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns))
-
-    # 竖向显示X轴标签并调整对齐方式
     plt.xticks(rotation=90, ha='right')
-
-    # 使用 fig.autofmt_xdate() 来确保日期或标签格式正确
     fig.autofmt_xdate(rotation=90)
-
-    # 调整布局以避免标签被遮挡
-    plt.subplots_adjust(bottom=0.15)
-
-    fig.tight_layout()  # 防止Y轴标签重叠
+    plt.subplots_adjust(right=0.2 + 0.05 * (len(y_columns)-2))  # 自动调宽图表，避免轴标签被遮挡
+    fig.tight_layout()
     st.pyplot(fig)
 
 # Streamlit UI
