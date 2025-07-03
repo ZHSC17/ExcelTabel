@@ -60,7 +60,7 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
         ax_new.tick_params(axis='y', labelcolor=color)
 
     # 设置图表标题和布局
-    plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns))
+    plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns) , fontproperties=my_font)
     plt.xticks(rotation=90, ha='right')
     fig.autofmt_xdate(rotation=90)
     plt.subplots_adjust(right=0.2 + 0.05 * (len(y_columns)-2))  # 自动调宽图表，避免轴标签被遮挡
