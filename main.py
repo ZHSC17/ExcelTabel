@@ -5,6 +5,8 @@ import streamlit as st
 import matplotlib
 import matplotlib.font_manager as fm
 from itertools import cycle
+import os
+
 
 
 font_path = os.path.join(os.path.dirname(__file__), "站酷文艺体.TTF")
