@@ -7,10 +7,13 @@ import matplotlib.font_manager as fm
 from itertools import cycle
 
 
-# font_path = os.path.join(os.path.dirname(__file__), "站酷文艺体.TTF")
-# my_font = fm.FontProperties(fname=font_path)
-# # 设置支持中文的字体
-# matplotlib.rcParams['font.family'] = my_font.get_name()
+font_path = os.path.join(os.path.dirname(__file__), "站酷文艺体.TTF")
+if not os.path.exists(font_path):
+    st.warning("⚠️ 中文字体文件未找到，图表可能无法正确显示中文")
+else:
+    my_font = fm.FontProperties(fname=font_path)
+# 设置支持中文的字体
+matplotlib.rcParams['font.family'] = my_font.get_name()
 matplotlib.rcParams['axes.unicode_minus'] = False  # 解决负号 '-' 显示为方块的问题
 
 # 读取Excel文件
@@ -70,7 +73,7 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
 # Streamlit UI
 def main():
     st.title("Excel 数据分析工具 - 多Y轴图表")
-
+    st.text(f"已加载字体: {my_font.get_name()}")
     # 上传文件
     uploaded_file = st.file_uploader("上传你的Excel文件", type="xlsx")
     
