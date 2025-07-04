@@ -8,6 +8,11 @@ from itertools import cycle
 import os
 
 
+font_path = os.path.join(os.path.dirname(__file__), "站酷文艺体.TTF")
+if not os.path.exists(font_path):
+    st.warning("⚠️ 中文字体文件未找到，图表可能无法正确显示中文")
+else:
+    my_font = fm.FontProperties(fname=font_path)
 
 
 # 读取Excel文件
@@ -57,7 +62,7 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
         ax_new.tick_params(axis='y', labelcolor=color)
 
     # 设置图表标题和布局
-    plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns) )
+    plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns) , fontproperties=my_font)
     plt.xticks(rotation=90, ha='right')
     fig.autofmt_xdate(rotation=90)
     plt.subplots_adjust(right=0.2 + 0.05 * (len(y_columns)-2))  # 自动调宽图表，避免轴标签被遮挡
