@@ -31,8 +31,8 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
     color_cycle = cycle(colors)
 
     axes = [host]
-    host.set_xlabel(x_column)
-    host.set_ylabel(y_columns[0], color=colors[0])
+    host.set_xlabel(x_column, fontproperties=my_font)
+    host.set_ylabel(y_columns[0], color=colors[0], fontproperties=my_font)
     host.tick_params(axis='y', labelcolor=colors[0])
 
     # 画第一个Y轴
@@ -63,7 +63,7 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
 
     # 设置图表标题和布局
     plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns) , fontproperties=my_font)
-    plt.xticks(rotation=90, ha='right')
+    plt.xticks(rotation=90, ha='right', fontproperties=my_font)
     fig.autofmt_xdate(rotation=90)
     plt.subplots_adjust(right=0.2 + 0.05 * (len(y_columns)-2))  # 自动调宽图表，避免轴标签被遮挡
     fig.tight_layout()
