@@ -38,11 +38,11 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
     # 画第一个Y轴
     color = next(color_cycle)
     if chart_type == "折线图":
-        host.plot(data[x_column], data[y_columns[0]], color=color, label=y_columns[0])
+        host.plot(data[x_column], data[y_columns[0]], color=color, label=y_columns[0], fontproperties=my_font)
     elif chart_type == "柱状图":
-        host.bar(data[x_column], data[y_columns[0]], color=color, label=y_columns[0])
+        host.bar(data[x_column], data[y_columns[0]], color=color, label=y_columns[0], fontproperties=my_font)
     elif chart_type == "散点图":
-        host.scatter(data[x_column], data[y_columns[0]], color=color, label=y_columns[0])
+        host.scatter(data[x_column], data[y_columns[0]], color=color, label=y_columns[0], fontproperties=my_font)
 
     # 创建其他 Y 轴
     for i in range(1, len(y_columns)):
@@ -52,11 +52,11 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
 
         color = next(color_cycle)
         if chart_type == "折线图":
-            ax_new.plot(data[x_column], data[y_columns[i]], color=color, label=y_columns[i])
+            ax_new.plot(data[x_column], data[y_columns[i]], color=color, label=y_columns[i], fontproperties=my_font)
         elif chart_type == "柱状图":
-            ax_new.bar(data[x_column], data[y_columns[i]], color=color, label=y_columns[i])
+            ax_new.bar(data[x_column], data[y_columns[i]], color=color, label=y_columns[i], fontproperties=my_font)
         elif chart_type == "散点图":
-            ax_new.scatter(data[x_column], data[y_columns[i]], color=color, label=y_columns[i])
+            ax_new.scatter(data[x_column], data[y_columns[i]], color=color, label=y_columns[i], fontproperties=my_font)
 
         ax_new.set_ylabel(y_columns[i], color=color)
         ax_new.tick_params(axis='y', labelcolor=color)
@@ -80,7 +80,6 @@ def main():
     matplotlib.rcParams['font.family'] = my_font.get_name()
     matplotlib.rcParams['axes.unicode_minus'] = False  # 解决负号 '-' 显示为方块的问题
     st.title("Excel 数据分析工具 - 多Y轴图表")
-    st.text(f"已加载字体: {my_font.get_name()}")
     # 上传文件
     uploaded_file = st.file_uploader("上传你的Excel文件", type="xlsx")
     
