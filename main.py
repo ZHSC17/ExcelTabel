@@ -62,8 +62,10 @@ def plot_multiple_y_axes(data, x_column, y_columns, chart_type):
         ax_new.tick_params(axis='y', labelcolor=color)
 
     # 设置图表标题和布局
-    plt.title(f'多Y轴图表: {x_column} vs ' + ' & '.join(y_columns) , fontproperties=my_font)
-    plt.xticks(rotation=90, ha='right', fontproperties=my_font)
+    plt.title(f'{x_column} vs ' + ' & '.join(y_columns) , fontproperties=my_font)
+    plt.xticks(rotation=90, ha='right')
+    for label in host.get_xticklabels():
+        label.set_fontproperties(my_font) 
     fig.autofmt_xdate(rotation=90)
     plt.subplots_adjust(right=0.2 + 0.05 * (len(y_columns)-2))  # 自动调宽图表，避免轴标签被遮挡
     fig.tight_layout()
